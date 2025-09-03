@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Track applications exposed via OOD
+# /shared/monitoring/scripts/ood_apps_mon.sh $USER ssh_key_manager
+
+# Determine the directory where this script is located
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+# Activate the virtual environment
+source $SCRIPT_DIR/../python-venv/bin/activate
+
+# Execute Python using the virtual environment
+exec /bin/env python3 "$@"
+

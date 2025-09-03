@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body text-center">
+
+          <h1 class="mb-4 fw-bold">SSH Key Manager</h1>
+
+          <div class="d-grid gap-3">
+            <!-- Create -->
+            <form id="createKeyForm" method="post">
+              <button id="createBtn" class="btn btn-ood" name="action" value="create">
+                <i class="fa fa-plus-circle me-1"></i> Create SSH Key
+              </button>
+            </form>
+
+            <!-- Delete -->
+            <form method="post">
+              <button class="btn btn-outline-ood" name="action" value="delete">
+                <i class="fa fa-trash me-1"></i> Delete SSH Key
+              </button>
+            </form>
+
+            <!-- Download -->
+            {% if pubkey %}
+            <form method="get" action="{{ url_for('download_private_key') }}">
+              <button class="btn btn-outline-ood">
+                <i class="fa fa-download me-1"></i> Download Private Key
+              </button>
+            </form>
+            {% endif %}
+          </div>
+
+          <hr class="my-4">
+
+          <div class="d-flex justify-content-between align-items-center">
+	    <h3 class="h5 mb-0">Current Public Key</h3>
+	    {% if pubkey %}
+	    <button id="copyBtn" type="button"
+	          class="btn btn-sm btn-outline-secondary">
+	      <i class="fa fa-copy me-1"></i> Copy
+	    </button>
+	    {% endif %}
+  	  </div>
+
+          <pre id="pubkeyBox" class="pubkey-box">{{ pubkey or "No SSH key found. Click 'Create' to generate one." }}</pre>
+          {% if pubkey %}
+            <p class="text-muted"><em>Copy this key into remote servers or Git services.</em></p>
+          {% endif %}
+
+        </div><!-- /.card-body -->
+      </div><!-- /.card -->
+
+      {% if messages %}
+        <div class="alert alert-info mt-4">
+          {% for msg in messages %}
+            <p class="mb-0">{{ msg }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% if pubkey %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn  = document.getElementById('copyBtn');
+    const text = document.getElementById('pubkeyBox').textContent.trim();
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = '<i class="fa fa-check me-1"></i> Copied!';
+        btn.classList.remove('btn-outline-secondary');
+        btn.classList.add('btn-success');
+        setTimeout(() => {
+          btn.innerHTML = '<i class="fa fa-copy me-1"></i> Copy';
+          btn.classList.remove('btn-success');
+          btn.classList.add('btn-outline-secondary');
+        }, 2000);
+      });
+    });
+  });
+</script>
+{% endif %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('createKeyForm');
+    const btn = document.getElementById('createBtn');
+
+    {% if pubkey %}
+    // Public key exists → block form submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      alert("SSH key already exists.\nPlease click 'Delete' before creating a new one.");
+    });
+    {% endif %}
+  });
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,44 @@
+<h1>SSH Key Manager</h1>
+
+<!-- Button to trigger SSH key creation -->
+<form method="post">
+  <button class="btn btn-success" name="action" value="create" type="submit">
+    <i class="fa fa-plus-circle"></i> Create SSH Key
+  </button>
+</form>
+
+<br>
+
+<!-- Button to trigger SSH key deletion -->
+<form method="post">
+  <button class="btn btn-danger" name="action" value="delete" type="submit">
+    <i class="fa fa-trash"></i> Delete SSH Key
+  </button>
+</form>
+
+<br>
+
+<!-- Display the current public key if it exists -->
+<h3>Current Public Key</h3>
+<pre style="background-color: #f8f9fa; padding: 1em;">
+{{ pubkey or "No SSH key found. Click 'Create' to generate one." }}
+</pre>
+
+{% if pubkey %}
+<p><em>Copy this key and paste it into remote servers or Git services.</em></p>
+<!-- Button to download the private key -->
+<form method="get" action="{{ url_for('download_private_key') }}">
+  <button class="btn btn-primary" type="submit">
+    <i class="fa fa-download"></i> Download Private Key
+  </button>
+</form>
+<br>
+{% endif %}
+
+{% if messages %}
+  <div class="alert alert-info mt-3">
+    {% for msg in messages %}
+      <p>{{ msg }}</p>
+    {% endfor %}
+  </div>
+{% endif %}

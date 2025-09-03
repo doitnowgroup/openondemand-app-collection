@@ -1,0 +1,8 @@
+---
+name: SSH Key Manager
+category: Interactive Apps
+subcategory: Tools
+role: passenger
+description: |
+  This app will create ssh credentials and allow credentials management.
+
