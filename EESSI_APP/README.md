@@ -25,4 +25,9 @@ https://<server-ip>:5000/modules
 ```
 Since self-signed certificates are used, the first time you access the endpoint you may need to manually accept the certificate by opening `https://<server-ip>:5000/modules`. You should then see a JSON response with the list of modules.
 
-
+## Usage in Open OnDemand
+Once the app is installed:
+- Go to the OOD Dashboard.
+- Select the app, choose the modules you want from the filtered list, and configure the job (e.g., project).
+- Submit a Desktop job.
+- After the remote desktop session starts, the selected modules will be available in your environment.
