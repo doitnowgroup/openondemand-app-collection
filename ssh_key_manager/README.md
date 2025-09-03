@@ -1,4 +1,4 @@
-# EESSI application list 
+# SSH key manager
 This is an experimental passenger application that allows users to manage ssh keys through Open Ondemand.
 
 **WARNING:** This project is in very early development stage.
