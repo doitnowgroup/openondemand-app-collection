@@ -1,0 +1,63 @@
+---
+title: "EESSI General App"
+cluster: "my_cluster"
+description: |
+  This app will launch a Desktop on one node with the modules of EESSI loaded. You will be
+  able to interact with it through a VNC session.
+
+# Especificar el script de pre-renderizado
+pre_render_script: "pre_render_script.sh"
+
+attributes:
+  desktop:
+    label: "Desktop Environment"
+    widget: select
+    options:
+      - "gnome"
+      - "xfce"
+  bc_vnc_idle: 0
+  bc_vnc_resolution:
+    required: true
+  node_type: null
+
+
+  module_title:
+    readonly: true
+    skip_label: true
+    value: "Module list"
+    style: |
+      background: none;
+      border: none;
+      box-shadow: none;
+      padding: unset;
+      color: black;
+      margin-top: 1em;
+      margin-bottom: 16px;
+      font-size: 1.5em;
+      font-weight: bold;
+      line-height: 1.43;
+
+  modules_filter:
+     readonly: false
+     value: ""
+
+  module_list:
+    skip_label: true
+    style: |
+      display: none;
+    id: 'module_list_container'
+
+  selected_modules:
+     readonly: true
+     value: ""
+form:
+  - bc_vnc_idle
+  - desktop
+  - auto_accounts
+  - bc_num_hours
+  - node_type
+  - bc_vnc_resolution
+  - module_title
+  - module_filter
+  - module_list
+  - selected_modules
