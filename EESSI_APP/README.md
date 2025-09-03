@@ -8,7 +8,7 @@ This is an experimental application that integrates with EESSI to expose and vis
 - Python 3 (tested with Python 3.6.8)
 - Flask (tested with flask 2.0.3)
 
-## Quick start
+## Setup
 Copy this app into your OOD apps directory:
 ```
 /var/www/ood/apps/sys/   # system-wide
