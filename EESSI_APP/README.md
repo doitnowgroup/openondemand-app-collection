@@ -7,6 +7,7 @@ This is an experimental application that integrates with EESSI to expose and vis
 - Open OnDemand server
 - Python 3 (tested with Python 3.6.8)
 - Flask (tested with flask 2.0.3)
+- EESSI properly set up 
 
 ## Setup
 Copy this app into your OOD apps directory:

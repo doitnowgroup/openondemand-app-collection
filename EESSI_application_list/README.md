@@ -7,6 +7,7 @@ This is an experimental passenger application that allows users to browse availa
 - Open OnDemand server
 - Python 3 
 - Flask
+- EESSI properly set up
 
 ## Setup
 Copy this app into your OOD apps directory:
