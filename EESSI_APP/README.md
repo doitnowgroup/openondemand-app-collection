@@ -15,7 +15,7 @@ Copy this app into your OOD apps directory:
 /var/www/ood/apps/sys/   # system-wide
 $HOME/ondemand/dev/      # personal sandbox
 ```
-Then run the Flask API.
+Then run the Flask API. Please note you need to create your own `cert.pem` and `key.pem` in the `flask_exporter/` directory before running the Flask app.
 ```
 cd /var/www/ood/apps/sys/EESSI_APP/flask_exporter
 python3 modules_api.py
@@ -24,6 +24,7 @@ This will start a local HTTPS service (self-signed certificates) on:
 ```
 https://<server-ip>:5000/modules
 ```
+
 Since self-signed certificates are used, the first time you access the endpoint you may need to manually accept the certificate by opening `https://<server-ip>:5000/modules`. You should then see a JSON response with the list of modules.
 
 ## Usage in Open OnDemand
