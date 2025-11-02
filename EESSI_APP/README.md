@@ -1,5 +1,6 @@
 # EESSI Open OnDemand App
-This is an experimental application that integrates with EESSI to expose and visualize available modules on the HPC nodes.
+This experimental Open OnDemand interactive app integrates with the EESSI project to expose available software modules provided through EESSI.
+Users can browse and select desired modules from the EESSI environment, then launch a remote desktop session preloaded with those selected modules.
 
 **WARNING:** This project is in very early development stage.
 
