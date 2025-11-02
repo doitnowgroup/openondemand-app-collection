@@ -27,6 +27,7 @@ https://<server-ip>:5000/modules
 ```
 
 Since self-signed certificates are used, the first time you access the endpoint you may need to manually accept the certificate by opening `https://<server-ip>:5000/modules`. You should then see a JSON response with the list of modules.
+Once the Flask API is running, you can proceed to the Open OnDemand Dashboard to use the EESSI app as described below.
 
 ## Usage in Open OnDemand
 Once the app is installed:
