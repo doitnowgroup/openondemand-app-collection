@@ -1,0 +1,8 @@
+---
+name: Grafana Viewer Per User (Python) Dev
+category: Monitoring
+subcategory: Dashboards
+role: passenger
+description: |
+  This app will allow browsing grafana dashboards from DO IT NOW monitoring stack.
+

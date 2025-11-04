@@ -1,0 +1,21 @@
+/* Small visual enhancements */
+#dash-grid .card {
+  transition: transform .08s ease-in-out, box-shadow .08s ease-in-out;
+}
+#dash-grid .card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 .5rem 1rem rgba(0,0,0,.08);
+}
+.tag-badge { margin-right: .25rem; }
+.skeleton {
+  border-radius: .5rem;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 37%, #eee 63%);
+  background-size: 400% 100%;
+  animation: shine 1.4s ease infinite;
+  min-height: 96px;
+}
+@keyframes shine {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+

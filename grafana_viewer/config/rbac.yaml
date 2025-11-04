@@ -1,0 +1,5 @@
+users:
+  # hpcnowtest can see these two UIDs or any dashboard in folder 'ops'
+  hpcnowtest:
+    dashboards: ["ioLfdn5Wz"]
+

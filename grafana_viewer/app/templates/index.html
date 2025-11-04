@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Defaults passed via data-* to avoid inline scripts under strict CSP -->
+<div id="app-meta"
+     data-root="{{ request.script_root|default('', true) }}"
+     data-index="{{ url_for('index') }}"
+     data-grafana-base="{{ config['GRAFANA_EMBED_BASE_URL'] }}">
+</div>
+
+<div id="defaults"
+     data-refresh="{{ config['DEFAULT_REFRESH'] }}"
+     data-from="{{ config['DEFAULT_FROM'] }}"
+     data-to="{{ config['DEFAULT_TO'] }}"></div>
+
+<div class="d-flex align-items-center gap-3 mb-3">
+  <h1 class="h4 mb-0">Available Items</h1>
+  <div id="mode-badge" class="badge text-bg-info d-none"></div>
+  <div id="user-badge" class="badge text-bg-secondary d-none"></div>
+</div>
+
+<div class="row g-3 mb-3">
+  <div class="col-12 col-md-6 col-lg-4">
+    <label class="form-label">Data Source</label>
+    <div class="d-flex align-items-center gap-3">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="mode" id="mode-dashboards" value="dashboards">
+        <label class="form-check-label" for="mode-dashboards">Dashboards</label>
+      </div>
+      <div class="form-check form-check-inline">
+	<input class="form-check-input" type="radio" name="mode" id="mode-images" value="images" checked>
+	<label class="form-check-label" for="mode-images">Images</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row align-items-center g-3 mb-3">
+  <div class="col-12 col-md-6 col-lg-4">
+    <label class="form-label">Search</label>
+    <input id="filter-input" type="search" class="form-control" placeholder="Filter by title/name, tags or key…" autocomplete="off">
+  </div>
+
+  <div class="col-6 col-md-3 col-lg-2">
+    <label class="form-label">Default refresh</label>
+    <select id="refresh-select" class="form-select">
+      <option value="5s">5s</option>
+      <option value="10s" selected>10s</option>
+      <option value="30s">30s</option>
+      <option value="1m">1m</option>
+      <option value="5m">5m</option>
+    </select>
+  </div>
+  <div class="col-6 col-md-3 col-lg-2">
+    <label class="form-label">Time range (from)</label>
+    <input id="from-input" class="form-control" value="now-1h">
+  </div>
+  <div class="col-6 col-md-3 col-lg-2">
+    <label class="form-label">Time range (to)</label>
+    <input id="to-input" class="form-control" value="now">
+  </div>
+</div>
+
+<div id="dash-grid" class="row g-3" aria-live="polite">
+  <!-- Rendered by JS -->
+</div>
+
+<div id="error-box" class="alert alert-danger d-none mt-3" role="alert"></div>
+
+{% endblock %}
+

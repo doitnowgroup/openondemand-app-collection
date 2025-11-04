@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-3">
+  <h1 class="h5 mb-0">{{ title }}</h1>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('index') }}" aria-label="Back to list">Back</a>
+    <a class="btn btn-outline-primary btn-sm" href="{{ full_url }}" target="_blank" rel="noreferrer noopener">Open Full Dashboard</a>
+  </div>
+</div>
+
+<div class="row g-3">
+  {% for img in images %}
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          {% if img.panel_id %}
+            <div class="small text-muted mb-2">Panel ID: {{ img.panel_id }}</div>
+          {% endif %}
+          <img src="{{ img.url }}" alt="Panel {{ img.panel_id or 'dashboard' }}" class="img-fluid rounded border w-100" loading="lazy">
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
+
