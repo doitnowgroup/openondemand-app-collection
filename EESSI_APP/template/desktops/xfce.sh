@@ -38,7 +38,20 @@ fi
 
 # launch dbus first through eval becuase it can conflict with a conda environment
 # see https://github.com/OSC/ondemand/issues/700
-eval $(dbus-launch --sh-syntax)
+#eval $(dbus-launch --sh-syntax)
+
+# Asegurar que dbus usa paths del sistema y no de EESSI
+export TMPDIR=/tmp
+export XDG_RUNTIME_DIR=/run/user/$(id -u)
+mkdir -p "${XDG_RUNTIME_DIR}"
+chmod 700 "${XDG_RUNTIME_DIR}"
+
+# Crear /tmp/.ICE-unix si no existe
+mkdir -p /tmp/.ICE-unix
+chmod 1777 /tmp/.ICE-unix
+
+# Arrancar dbus limpio con paths del sistema
+eval $(env TMPDIR=/tmp XDG_RUNTIME_DIR=/run/user/$(id -u) /usr/bin/dbus-launch --sh-syntax)
 
 # Start up xfce desktop (block until user logs out of desktop)
 xfce4-session

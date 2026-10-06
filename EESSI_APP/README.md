@@ -1,14 +1,12 @@
 # EESSI Open OnDemand App
-This experimental Open OnDemand interactive app integrates with the EESSI project to expose available software modules provided through EESSI.
+This Open OnDemand interactive app integrates with the EESSI project to expose available software modules provided through EESSI.
 Users can browse and select desired modules from the EESSI environment, then launch a remote desktop session preloaded with those selected modules.
-
-**WARNING:** This project is in very early development stage.
 
 ## Requirements
 - Open OnDemand server
 - Python 3 (tested with Python 3.6.8)
 - Flask (tested with flask 2.0.3)
-- EESSI properly set up 
+- EESSI properly set up in both, OOD node and Compute Node
 
 ## Setup
 Copy this app into your OOD apps directory:
@@ -16,18 +14,27 @@ Copy this app into your OOD apps directory:
 /var/www/ood/apps/sys/   # system-wide
 $HOME/ondemand/dev/      # personal sandbox
 ```
-Then run the Flask API. Please note you need to create your own `cert.pem` and `key.pem` in the `flask_exporter/` directory before running the Flask app.
+
+# Copy the service unit in the node that will run this service, can be the OOD or other compute node with EESSI available
 ```
-cd /var/www/ood/apps/sys/EESSI_APP/flask_exporter
-python3 modules_api.py
+cp modules_service/ood-eessi-modules.service /etc/systemd/system/
+
+# Enable and start the service
+systemctl daemon-reload
+systemctl enable --now ood-eessi-modules.service
+
+# Verify it is running
+systemctl status ood-eessi-modules.service
 ```
+SSL certificates (cert.pem / key.pem) are generated automatically in the modules_service/ working directory on first start. They are reused on subsequent restarts.
 This will start a local HTTPS service (self-signed certificates) on:
 ```
 https://<server-ip>:5000/modules
 ```
-
-Since self-signed certificates are used, the first time you access the endpoint you may need to manually accept the certificate by opening `https://<server-ip>:5000/modules`. You should then see a JSON response with the list of modules.
-Once the Flask API is running, you can proceed to the Open OnDemand Dashboard to use the EESSI app as described below.
+Now you will need to configure the IP of the machine running the service in the OOD App. For this you should modify "form.js" and search for *// Load modules* section.
+```
+url: 'https://X.X.X.X:5000/modules',
+```
 
 ## Usage in Open OnDemand
 Once the app is installed:

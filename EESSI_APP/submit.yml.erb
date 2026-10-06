@@ -1,6 +1,8 @@
 ---
 batch_connect:
   template: vnc
+  websockify_cmd: "/shared/opt/websockify_venv/bin/websockify"
+  turboVNC: true
 parameters:
   - name: SELECTED_MODULES
     value: "<%= selected_modules %>"

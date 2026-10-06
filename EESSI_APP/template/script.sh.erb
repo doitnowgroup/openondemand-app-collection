@@ -1,16 +1,52 @@
 #!/usr/bin/env bash
+# when previous version of EESSI is in use in /etc/profile.d, simply purge modules won't help
+module list
+module purge
+
+echo "[DEBUG] MODULEPATH before EESSI cleanup:"
+printf '%s\n' "${MODULEPATH:-}" | tr ':' '\n' | sed 's/^/[DEBUG]   /'
+
+# Remove all existing EESSI-related entries from MODULEPATH for this app only
+if [[ -n "${MODULEPATH:-}" ]]; then
+  CLEAN_MODULEPATH=$(
+    printf '%s' "$MODULEPATH" \
+      | tr ':' '\n' \
+      | grep -Ev '^(/shared/eessi/versions/|/cvmfs/software\.eessi\.io/versions/|/cvmfs/software\.eessi\.io/init/modules)' \
+      | paste -sd ':' -
+  )
+  export MODULEPATH="$CLEAN_MODULEPATH"
+fi
+
+echo "[DEBUG] MODULEPATH after EESSI cleanup:"
+printf '%s\n' "${MODULEPATH:-}" | tr ':' '\n' | sed 's/^/[DEBUG]   /'
+
+
+export OOD_EESSI_APP_SKIP_SITE_DEFAULT=1
 
 # Change working directory to user's home directory
 cd "${HOME}"
 
-# Prepare EESSI
-source /cvmfs/software.eessi.io/versions/2023.06/init/bash
+# --- Base environment pre-EESSI ---
+export TMPDIR=/tmp
+export XDG_RUNTIME_DIR=/tmp/runtime-$(id -u)
+mkdir -p "${XDG_RUNTIME_DIR}"
+chmod 700 "${XDG_RUNTIME_DIR}"
+
+export GDK_PIXBUF_MODULE_FILE=/usr/lib64/gdk-pixbuf-2.0/2.10.0/loaders.cache
+export GSETTINGS_SCHEMA_DIR=/usr/share/glib-2.0/schemas
+export XDG_DATA_DIRS=/usr/local/share:/usr/share
+
+eval $(env TMPDIR=/tmp XDG_RUNTIME_DIR=/tmp/runtime-$(id -u) /usr/bin/dbus-launch --sh-syntax)
+
+# --- Load EESSI ---
+source /cvmfs/software.eessi.io/versions/2025.06/init/bash
 
 # Load Modules
+echo "[DEBUG] context.selected_modules = <%= context.selected_modules %>"
 module load <%= context.selected_modules %>
 
 # List Modules
-echo "[DEBUG: MODULE LIST]"
+echo "[INFO: MODULE LIST]"
 module list
 
 # Ensure that the user's configured login shell is used

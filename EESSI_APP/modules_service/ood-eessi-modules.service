@@ -1,0 +1,27 @@
+[Unit]
+Description=EESSI Modules API
+After=network.target
+
+[Service]
+# --- Change this based on your environment ---
+User=root
+WorkingDirectory=/var/www/ood/apps/sys/OOD_EESSI_APP/modules_service
+ExecStart=/var/www/ood/apps/sys/OOD_EESSI_APP/modules_service/python-venv/bin/python /var/www/ood/apps/sys/OOD_EESSI_APP/modules_service/module_list_api.py
+
+# Optional Environment Variables
+Environment=PORT=5000
+Environment=CACHE_TTL=300
+Environment=LOG_LEVEL=INFO
+Environment=EESSI_INIT=/cvmfs/software.eessi.io/versions/2025.06/init/bash
+
+# Restart automatically if it dies
+Restart=on-failure
+RestartSec=5s
+
+# Redirigir stdout/stderr al journal de systemd (ver con: journalctl -u modules-api)
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+
